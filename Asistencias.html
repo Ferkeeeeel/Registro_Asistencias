@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Asistencias</title>
+    <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #qr-reader {
+            width: 300px;
+            margin: auto;
+        }
+        #log {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Control de Asistencias</h1>
+    <div id="qr-reader"></div>
+    <p id="log">Escanea el código QR para registrar tu asistencia.</p>
+
+    <h2>Asistencias Registradas</h2>
+    <table id="attendance-table">
+        <thead>
+            <tr>
+                <th>ID Usuario</th>
+                <th>Nombre</th>
+                <th>Fecha y Hora</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí se añadirán las asistencias -->
+        </tbody>
+    </table>
+
+    <script>
+    // Simulación de base de datos de usuarios
+    const usuarios = {
+        "123": "Juan Pérez",
+        "456": "María Gómez",
+        "789": "Luis Fernández"
+    };
+
+    // Función para registrar la asistencia
+    function registrarAsistencia(userId) {
+        const nombre = usuarios[userId] || "Usuario desconocido";
+        const fechaHora = new Date().toLocaleString();
+
+        // Enviar los datos a PHP usando una solicitud AJAX
+        const xhr = new XMLHttpRequest();
+        const url = "registrar_asistencia.php"; // El archivo PHP que creaste
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log(xhr.responseText);
+                alert("Asistencia registrada correctamente");
+            }
+        };
+        xhr.send(`user_id=${userId}&nombre=${nombre}`);
+    }
+</script>
+
+
+</body>
+</html>
